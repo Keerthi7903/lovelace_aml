@@ -1,0 +1,5 @@
+Wallet_ID,Label,Note
+V0001,illicit,known_smurfing_source_investigation_case_1
+V0009,illicit,suspicious_mule_layering_node
+V0020,illicit,blacklisted_high_value_funder
+V0007,illicit,known_aggregating_mule

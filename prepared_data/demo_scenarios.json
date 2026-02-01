@@ -1,0 +1,14 @@
+{
+  "Scenario 1: Rapid Smurfing": {
+    "source": "A1",
+    "dest": "B1",
+    "type": "Burst Fan-Out",
+    "desc": "High volume sent in seconds."
+  },
+  "Scenario 2: Aggregation": {
+    "source": "Q2",
+    "dest": "S2",
+    "type": "Fan-In Aggregation",
+    "desc": "Funds aggregating at target."
+  }
+}

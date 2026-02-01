@@ -1,0 +1,9 @@
+streamlit
+pandas
+pandera
+plotly
+matplotlib  
+torch
+torch-geometric
+networkx
+pyvis

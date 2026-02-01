@@ -1,0 +1,164 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 650px;
+                 background-color: #1E1E1E;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#00CC00", "font": {"color": "white"}, "id": "T2", "label": "T2", "shape": "dot", "title": "Risk: 0.11"}, {"color": "#FF0000", "font": {"color": "white"}, "id": "A5", "label": "A5", "shape": "dot", "title": "Risk: 0.91"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "D1", "label": "D1", "shape": "dot", "title": "Risk: 0.54"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "F1", "label": "F1", "shape": "dot", "title": "Risk: 0.63"}, {"color": "#00CC00", "font": {"color": "white"}, "id": "A4", "label": "A4", "shape": "dot", "title": "Risk: 0.12"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "Q2", "label": "Q2", "shape": "dot", "title": "Risk: 0.46"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "E1", "label": "E1", "shape": "dot", "title": "Risk: 0.61"}, {"color": "#FF0000", "font": {"color": "white"}, "id": "C5", "label": "C5", "shape": "dot", "title": "Risk: 0.87"}, {"color": "#FF0000", "font": {"color": "white"}, "id": "D3", "label": "D3", "shape": "dot", "title": "Risk: 0.88"}, {"color": "#00CC00", "font": {"color": "white"}, "id": "D4", "label": "D4", "shape": "dot", "title": "Risk: 0.07"}, {"color": "#FF0000", "font": {"color": "white"}, "id": "A3", "label": "A3", "shape": "dot", "title": "Risk: 0.92"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "B1", "label": "B1", "shape": "dot", "title": "Risk: 0.55"}, {"color": "#FF0000", "font": {"color": "white"}, "id": "A1", "label": "A1", "shape": "dot", "title": "Risk: 0.94"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "B5", "label": "B5", "shape": "dot", "title": "Risk: 0.48"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "C3", "label": "C3", "shape": "dot", "title": "Risk: 0.49"}, {"color": "#00CC00", "font": {"color": "white"}, "id": "E4", "label": "E4", "shape": "dot", "title": "Risk: 0.05"}, {"color": "#FF0000", "font": {"color": "white"}, "id": "H1", "label": "H1", "shape": "dot", "title": "Risk: 0.89"}, {"color": "#FF0000", "font": {"color": "white"}, "id": "P2", "label": "P2", "shape": "dot", "title": "Risk: 0.95"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "C1", "label": "C1", "shape": "dot", "title": "Risk: 0.58"}, {"color": "#00CC00", "font": {"color": "white"}, "id": "B4", "label": "B4", "shape": "dot", "title": "Risk: 0.08"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "R2", "label": "R2", "shape": "dot", "title": "Risk: 0.45"}, {"color": "#00CC00", "font": {"color": "white"}, "id": "C4", "label": "C4", "shape": "dot", "title": "Risk: 0.09"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "B3", "label": "B3", "shape": "dot", "title": "Risk: 0.52"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "G1", "label": "G1", "shape": "dot", "title": "Risk: 0.62"}, {"color": "#FF0000", "font": {"color": "white"}, "id": "S2", "label": "S2", "shape": "dot", "title": "Risk: 0.83"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "color": "#888888", "from": "T2", "label": "1000.0", "title": "Amount: 1000.0 USDT\nTime: 2026-01-05 15:00:00", "to": "S2"}, {"arrows": "to", "color": "#888888", "from": "A5", "label": "100.0", "title": "Amount: 100.0 DAI\nTime: 2026-01-05 09:00:00", "to": "B5"}, {"arrows": "to", "color": "#888888", "from": "D1", "label": "1000.0", "title": "Amount: 1000.0 ETH\nTime: 2026-01-01 09:06:00", "to": "G1"}, {"arrows": "to", "color": "#888888", "from": "F1", "label": "2000.0", "title": "Amount: 2000.0 ETH\nTime: 2026-01-01 09:10:00", "to": "H1"}, {"arrows": "to", "color": "#888888", "from": "A4", "label": "20000.0", "title": "Amount: 20000.0 USDC\nTime: 2026-01-04 09:00:00", "to": "B4"}, {"arrows": "to", "color": "#888888", "from": "A4", "label": "20000.0", "title": "Amount: 20000.0 USDC\nTime: 2026-01-04 09:00:05", "to": "C4"}, {"arrows": "to", "color": "#888888", "from": "A4", "label": "20000.0", "title": "Amount: 20000.0 USDC\nTime: 2026-01-04 09:00:10", "to": "D4"}, {"arrows": "to", "color": "#888888", "from": "Q2", "label": "5000.0", "title": "Amount: 5000.0 USDT\nTime: 2026-01-02 09:10:00", "to": "S2"}, {"arrows": "to", "color": "#888888", "from": "E1", "label": "1000.0", "title": "Amount: 1000.0 ETH\nTime: 2026-01-01 09:06:10", "to": "G1"}, {"arrows": "to", "color": "#888888", "from": "D4", "label": "500.0", "title": "Amount: 500.0 USDC\nTime: 2026-01-04 17:00:10", "to": "E4"}, {"arrows": "to", "color": "#888888", "from": "A3", "label": "5000.0", "title": "Amount: 5000.0 BTC\nTime: 2026-02-05 11:30:00", "to": "B3"}, {"arrows": "to", "color": "#888888", "from": "A3", "label": "2000.0", "title": "Amount: 2000.0 BTC\nTime: 2026-01-03 10:00:00", "to": "C3"}, {"arrows": "to", "color": "#888888", "from": "B1", "label": "1000.0", "title": "Amount: 1000.0 ETH\nTime: 2026-01-01 09:05:00", "to": "F1"}, {"arrows": "to", "color": "#888888", "from": "A1", "label": "1000.0", "title": "Amount: 1000.0 ETH\nTime: 2026-01-01 09:00:00", "to": "B1"}, {"arrows": "to", "color": "#888888", "from": "A1", "label": "1000.0", "title": "Amount: 1000.0 ETH\nTime: 2026-01-01 09:00:01", "to": "C1"}, {"arrows": "to", "color": "#888888", "from": "A1", "label": "1000.0", "title": "Amount: 1000.0 ETH\nTime: 2026-01-01 09:00:02", "to": "D1"}, {"arrows": "to", "color": "#888888", "from": "A1", "label": "1000.0", "title": "Amount: 1000.0 ETH\nTime: 2026-01-01 09:00:03", "to": "E1"}, {"arrows": "to", "color": "#888888", "from": "B5", "label": "100.0", "title": "Amount: 100.0 DAI\nTime: 2026-01-05 12:00:00", "to": "C5"}, {"arrows": "to", "color": "#888888", "from": "C3", "label": "2000.0", "title": "Amount: 2000.0 BTC\nTime: 2026-01-03 10:30:00", "to": "D3"}, {"arrows": "to", "color": "#888888", "from": "P2", "label": "5000.0", "title": "Amount: 5000.0 USDT\nTime: 2026-01-02 09:00:00", "to": "Q2"}, {"arrows": "to", "color": "#888888", "from": "P2", "label": "5000.0", "title": "Amount: 5000.0 USDT\nTime: 2026-01-02 09:00:05", "to": "R2"}, {"arrows": "to", "color": "#888888", "from": "P2", "label": "1000.0", "title": "Amount: 1000.0 USDT\nTime: 2026-01-02 12:00:00", "to": "T2"}, {"arrows": "to", "color": "#888888", "from": "C1", "label": "1000.0", "title": "Amount: 1000.0 ETH\nTime: 2026-01-01 09:05:10", "to": "F1"}, {"arrows": "to", "color": "#888888", "from": "B4", "label": "500.0", "title": "Amount: 500.0 USDC\nTime: 2026-01-04 17:00:00", "to": "E4"}, {"arrows": "to", "color": "#888888", "from": "R2", "label": "5000.0", "title": "Amount: 5000.0 USDT\nTime: 2026-01-02 09:10:05", "to": "S2"}, {"arrows": "to", "color": "#888888", "from": "C4", "label": "500.0", "title": "Amount: 500.0 USDC\nTime: 2026-01-04 17:00:05", "to": "E4"}, {"arrows": "to", "color": "#888888", "from": "B3", "label": "10000.0", "title": "Amount: 10000.0 BTC\nTime: 2026-01-03 11:30:00", "to": "D3"}, {"arrows": "to", "color": "#888888", "from": "G1", "label": "2000.0", "title": "Amount: 2000.0 ETH\nTime: 2026-01-01 09:10:10", "to": "H1"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "forceAtlas2Based": {
+            "avoidOverlap": 1,
+            "centralGravity": 0.01,
+            "damping": 0.4,
+            "gravitationalConstant": -50,
+            "springConstant": 0.08,
+            "springLength": 120
+        },
+        "solver": "forceAtlas2Based",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
